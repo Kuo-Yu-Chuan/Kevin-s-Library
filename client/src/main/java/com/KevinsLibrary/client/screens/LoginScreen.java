@@ -12,7 +12,7 @@ public class LoginScreen extends JFrame {
     public LoginScreen (String userName) {
 
         setTitle ("興老大圖書館 登入");    //視窗名稱
-        setSize (700, 700);    //視窗大小
+        setSize (700, 400);    //視窗大小
         setDefaultCloseOperation (JFrame.DO_NOTHING_ON_CLOSE);    //跳出登入的X
         setLocationRelativeTo (null);    //視窗在螢幕正中間
         Font font = new Font ("微軟正黑體", Font.PLAIN, 14);    //設定字型
