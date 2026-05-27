@@ -12,7 +12,7 @@ public class RegisterScreen extends JFrame {
     public RegisterScreen (String userName) {
         
         setTitle ("興老大圖書館 註冊");    //視窗名稱
-        setSize (700, 700);    //視窗大小
+        setSize (700, 500);    //視窗大小
         setDefaultCloseOperation (JFrame.DO_NOTHING_ON_CLOSE);    //跳出登入的X
         setLocationRelativeTo (null);    //視窗在螢幕正中間
         Font font = new Font ("微軟正黑體", Font.PLAIN, 14);    //設定字型
@@ -65,7 +65,7 @@ public class RegisterScreen extends JFrame {
         wholePanel.add (inputPanel, BorderLayout.NORTH);
         wholePanel.add (buttonPanel, BorderLayout.SOUTH);
         wholePanel.add (failLabel, BorderLayout.CENTER);
-        add(wholePanel);
+        add (wholePanel);
 
         //設定按鈕功能
         registerButton.addActionListener (new ActionListener () {
@@ -73,8 +73,8 @@ public class RegisterScreen extends JFrame {
             public void actionPerformed (ActionEvent e) {
                 String userName = accountField.getText ().trim ();
                 String password = new String (passwordField.getPassword ());
-                String name = nameField.getText ().trim ();
-                String id = new String (idField.getPassword ());
+                //String name = nameField.getText ().trim ();
+                //String id = new String (idField.getPassword ());
 
                 //.....這邊要檢查.....這邊要檢查.....這邊要檢查.....這邊要檢查.....這邊要檢查.....這邊要檢查.....這邊要檢查.....這邊要檢查.....
                 //.....這邊要登入.....這邊要登入.....這邊要登入.....這邊要登入.....這邊要登入.....這邊要登入.....這邊要登入.....這邊要登入.....
@@ -94,7 +94,7 @@ public class RegisterScreen extends JFrame {
             }
         });
 
-        //跳出登入畫面
+        //跳出註冊畫面
         addWindowListener (new WindowAdapter () {
             @Override
             public void windowClosing (WindowEvent e) {
