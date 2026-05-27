@@ -11,24 +11,23 @@ import java.awt.event.WindowEvent;
 public class HomeScreen extends JFrame{
     public HomeScreen (String userName) {
 
-        JButton loginButton = new JButton ("");
-
-        //視窗名稱
-        if (userName != null) {
-            setTitle ("歡迎來到興老大圖書館 " + userName);
-            loginButton.setText ("切換帳號");
-        }
-        else {
-            setTitle ("歡迎來到興老大圖書館 未登入");
-            loginButton.setText("登入");
-        }
-
-        setSize (1000, 700);    //視窗大小
+        setTitle ("歡迎來到興老大圖書館");    //視窗名稱
+        setSize (1200, 700);    //視窗大小
         setDefaultCloseOperation (JFrame.DO_NOTHING_ON_CLOSE);    //結束應用程式的X
         setLocationRelativeTo (null);    //視窗在螢幕正中央
         setLayout (new FlowLayout (FlowLayout.RIGHT, 10, 40));    //視窗布局
 
-        //新增按鈕
+        //新增文字和按鈕
+        JLabel nameLabel = new JLabel ("");
+        JButton loginButton = new JButton ("");
+        if (userName != null) {
+            nameLabel.setText ("哈囉 " + userName);
+            loginButton.setText ("切換帳號");
+        }
+        else {
+            loginButton.setText ("登入");
+        }
+        add (nameLabel, BorderLayout.NORTH);
         loginButton.setFont (new Font ("微軟正黑體", Font.PLAIN, 16));
         add (loginButton, BorderLayout.NORTH);
         JButton registerButton = new JButton ("註冊");
