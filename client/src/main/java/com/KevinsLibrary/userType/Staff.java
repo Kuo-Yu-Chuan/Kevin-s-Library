@@ -1,4 +1,4 @@
-package model;
+package main.java.com.KevinsLibrary.userType;
 
 /**
  * Staff 類別：圖書館職員

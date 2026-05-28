@@ -1,7 +1,7 @@
-package model; // 依照你的專案結構
+package main.java.com.KevinsLibrary.userType; // 依照你的專案結構
 
 // 加上 public，讓其他資料夾的程式也能看見它
-public class Reader extends model.User {
+public class Reader extends User {
     private int foul;
     private long donate;
     private int booksBorrowed;
@@ -23,4 +23,6 @@ public class Reader extends model.User {
     public int getFoul() { return foul; }
     public long getDonate() { return donate; }
     public int getBooksBorrowed() { return booksBorrowed; }
+
+    public String getUserID() { return userID; }
 }

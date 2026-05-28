@@ -1,4 +1,4 @@
-package model;
+package main.java.com.KevinsLibrary.userType;
 
 import java.sql.*;
 import java.util.ArrayList;

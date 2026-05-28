@@ -1,4 +1,4 @@
-package model;
+package main.java.com.KevinsLibrary.userType;
 
 /**
  * Admin 類別：系統管理員
