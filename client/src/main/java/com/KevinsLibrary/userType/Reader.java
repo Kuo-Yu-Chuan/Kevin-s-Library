@@ -23,6 +23,14 @@ public class Reader extends User {
     public int getFoul() { return foul; }
     public long getDonate() { return donate; }
     public int getBooksBorrowed() { return booksBorrowed; }
-
     public String getUserID() { return userID; }
+    public void setBooksBorrowed(int booksBorrowed) {
+        this.booksBorrowed = booksBorrowed;
+    }
+    public void setFoul(int foul) {
+        this.foul = foul;
+    }
+    public void setDonate(long donate) {
+        this.donate = donate;
+    }
 }

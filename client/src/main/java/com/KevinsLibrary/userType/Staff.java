@@ -1,4 +1,6 @@
 package main.java.com.KevinsLibrary.userType;
+import main.java.com.KevinsLibrary.Book.Book;
+
 
 /**
  * Staff 類別：圖書館職員

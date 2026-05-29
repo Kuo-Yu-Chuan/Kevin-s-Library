@@ -1,5 +1,5 @@
 package main.java.com.KevinsLibrary.userType;
-
+import main.java.com.KevinsLibrary.Book.Book;
 /**
  * Admin 類別：系統管理員
  * 具備最高權限，與學生/職員帳號分離。負責書目資料維護與特定學號停權操作。
@@ -23,7 +23,7 @@ public class Admin extends User {
      * @param newTitle 新的書名
      */
     public void modifyBookTitle(Book book, String newTitle) {
-        book.setTitle(newTitle);
+        book.modifyTitle(newTitle);
         System.out.println("管理員 [" + this.getUserName() + "] 已將書籍修改新書名為：" + newTitle);
     }
 
@@ -33,7 +33,7 @@ public class Admin extends User {
      * @param newAuthor  新的作者名稱
      */
     public void modifyBookAuthor(Book book, String newAuthor) {
-        book.setAuthor(newAuthor);
+        book.modifyAuthor(newAuthor);
         System.out.println("管理員 [" + this.getUserName() + "] 已將書籍修改新作者為：" + newAuthor);
     }
 

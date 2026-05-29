@@ -1,8 +1,6 @@
 package main.java.com.KevinsLibrary.userType;
 
-/**
- * User 類別：代表圖書館系統的基礎使用者帳號資料
- */
+import main.java.com.KevinsLibrary.Book.Book;
 public class User {
     protected String userID;   // 使用者帳號/身分證字號
     protected String password; // 使用者密碼
