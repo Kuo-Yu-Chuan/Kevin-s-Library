@@ -42,7 +42,7 @@ public class RegisterScreen extends JFrame {
         passwordField.setFont (font);
         JTextField nameField = new JTextField ();
         nameField.setFont (font);
-        JPasswordField idField = new JPasswordField ();
+        JTextField idField = new JTextField ();
         idField.setFont (font);
 
         //Panel 用於整合 Label 、 Field 、 Botton
