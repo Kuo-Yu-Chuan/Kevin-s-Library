@@ -1,6 +1,5 @@
 package main.java.com.KevinsLibrary.userType;
 
-import main.java.com.KevinsLibrary.Book.Book;
 public class User {
     protected String userID;   // 使用者帳號/身分證字號
     protected String password; // 使用者密碼
