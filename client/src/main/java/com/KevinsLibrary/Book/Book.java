@@ -9,6 +9,8 @@ public class Book {
 
     private String title;
     private String author;
+    private int year;
+    private String language;
     private String ISBN;
     private Set<String> categories;
     private String callNumber;
@@ -23,6 +25,8 @@ public class Book {
     public Book(
             String title,
             String author,
+            int year, 
+            String language, 
             String ISBN,
             Set<String> categories,
             String callNumber,
@@ -34,6 +38,8 @@ public class Book {
 
         this.title = title;
         this.author = author;
+        this.year = year;
+        this.language = language;
         this.ISBN = ISBN;
         this.categories = categories;
         this.callNumber = callNumber;
@@ -82,12 +88,28 @@ public class Book {
         return author;
     }
 
+    public int getYear () {
+        return year;
+    }
+
+    public String getLanguage () {
+        return language;
+    }
+
     public String getISBN() {
         return ISBN;
     }
 
     public Set<String> getCategories() {
         return categories;
+    }
+
+    public String getCategoriesString () {
+        String str = "";
+        for (String category : categories) {
+            str += (category + " ");
+        }
+        return str;
     }
 
     public String getCallNumber() {
@@ -100,6 +122,10 @@ public class Book {
 
     public Position getPosition() {
         return position;
+    }
+
+    public String getPositionString () {
+        return "位於" + getPosition ().getLibraryString () + getPosition ().getFloorString () + getPosition ().getArea ();
     }
 
     public byte getAvailable() {
