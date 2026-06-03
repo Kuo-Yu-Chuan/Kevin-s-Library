@@ -17,7 +17,7 @@ public class RegisterScreen extends JFrame {
         setSize (700, 500);    //視窗大小
         setDefaultCloseOperation (JFrame.DO_NOTHING_ON_CLOSE);    //跳出登入的X
         setLocationRelativeTo (null);    //視窗在螢幕正中間
-        Font font = new Font ("微軟正黑體", Font.PLAIN, 14);    //設定字型
+        Font font = new Font ("微軟正黑體", Font.PLAIN, 16);    //設定字型
 
         //新增按鈕
         JButton registerButton = new JButton ("註冊");
@@ -72,14 +72,21 @@ public class RegisterScreen extends JFrame {
                 String password = new String (passwordField.getPassword ());
                 String UserName = nameField.getText ().trim ();
 
-                //.....這邊要檢查.....這邊要檢查.....這邊要檢查.....這邊要檢查.....這邊要檢查.....這邊要檢查.....這邊要檢查.....這邊要檢查.....
-                //.....這邊要登入.....這邊要登入.....這邊要登入.....這邊要登入.....這邊要登入.....這邊要登入.....這邊要登入.....這邊要登入.....
-                if (userID.equals("fuck") && password.equals("1234")) {
+                /* 註冊，中文的地方改掉，英文的應該可能不用動
+
+                if ( 去資料庫檢查，userID和userName還沒被用過 ) {
+                    user = new User (userID, password, userName, "Reader");    //呼叫constructor創造新帳號
+                    還要在User的資料庫寫入新帳號的資訊
+
                     new HomeScreen (user);
-                    dispose();
-                } else {
-                    failLabel.setText("不讓你註冊！");
+                    dispose ();
                 }
+                else {
+                    failLabel.setText("不讓你註冊！"); 
+                }
+                    
+                */
+
             }
         });
         cancelButton.addActionListener (new ActionListener () {
@@ -99,6 +106,6 @@ public class RegisterScreen extends JFrame {
             }
         });
 
-        setVisible(true);    //顯示視窗
+        setVisible (true);    //顯示視窗
     }
 }
