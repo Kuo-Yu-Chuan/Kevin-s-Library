@@ -7,10 +7,13 @@ import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
-public class SearchResultScreen extends JFrame {
-    public SearchResultScreen (String[] results, byte pages) {    //results 不是 String[]
+import main.java.com.KevinsLibrary.Book.*;
 
-        byte currentPage = 1;
+public class SearchResultScreen extends JFrame {
+
+    int currentPage = 1;
+
+    public SearchResultScreen (Book[] books) {
 
         setTitle ("興老大圖書館 搜尋結果");    //視窗名稱
         setSize (1200, 700);    //視窗大小
@@ -18,35 +21,49 @@ public class SearchResultScreen extends JFrame {
         setLocationRelativeTo (null);    //視窗在螢幕正中央
         Font font = new Font ("微軟正黑體", Font.PLAIN, 14);    //設定字型
 
-        JButton prevPageButton = new JButton ("<");
-        JButton nextPageButton = new JButton (">");
-        JLabel pageLabel = new JLabel ("Page " + Byte.toString (currentPage) + "/" + Byte.toString (pages));
-        prevPageButton.setFont (font);
-        add (prevPageButton, BorderLayout.SOUTH);
-        pageLabel.setFont (font);
-        add (pageLabel, BorderLayout.SOUTH);
-        nextPageButton.setFont (font);
-        add (nextPageButton, BorderLayout.SOUTH);
+        if (books != null && books.length != 0) {
+            int pages = (books.length / 5) + (books.length % 5 == 0 ? 0 : 1);
 
-        JPanel listPanel = new JPanel (new GridLayout (5, 3, 10, 10));
+            JPanel pagePanel = new JPanel (new FlowLayout ());
+            JButton prevPageButton = new JButton ("<");
+            JButton nextPageButton = new JButton (">");
+            JLabel pageLabel = new JLabel ("Page " + Integer.toString (currentPage) + "/" + Integer.toString (pages));
+            prevPageButton.setFont (font);
+            pageLabel.setFont (font);
+            nextPageButton.setFont (font);
+            pagePanel.add (prevPageButton);
+            pagePanel.add (pageLabel);
+            pagePanel.add (nextPageButton);
+            add (pagePanel, BorderLayout.SOUTH);
 
-        //設定按鈕功能
-        prevPageButton.addActionListener (new ActionListener () {
-            @Override
-            public void actionPerformed (ActionEvent e) {
-                if (currentPage != 1) {
-                    
+            //.....這邊要列出.....這邊要列出.....這邊要列出.....這邊要列出.....這邊要列出.....這邊要列出.....這邊要列出.....這邊要列出.....
+
+            //設定按鈕功能
+            prevPageButton.addActionListener (new ActionListener () {
+                @Override
+                public void actionPerformed (ActionEvent e) {
+                    if (currentPage != 1) {
+                        currentPage--;
+                        pageLabel.setText ("Page " + Integer.toString (currentPage) + "/" + Integer.toString (pages));
+                    }
                 }
-            }
-        });
-        nextPageButton.addActionListener (new ActionListener () {
-            @Override
-            public void actionPerformed (ActionEvent e) {
-                if (currentPage != pages) {
-                    
+            });
+            nextPageButton.addActionListener (new ActionListener () {
+                @Override
+                public void actionPerformed (ActionEvent e) {
+                    if (currentPage != pages) {
+                        currentPage++;
+                        pageLabel.setText ("Page " + Integer.toString (currentPage) + "/" + Integer.toString (pages));
+                    }
                 }
-            }
-        });
+            });
+        }
+        else {
+            JLabel sorryLabel = new JLabel ("拍謝啦，沒有你要的書。");
+            sorryLabel.setFont (font);
+            sorryLabel.setForeground (Color.RED);
+            add (sorryLabel, BorderLayout.CENTER);
+        }
 
         //跳出搜尋畫面
         addWindowListener (new WindowAdapter () {
