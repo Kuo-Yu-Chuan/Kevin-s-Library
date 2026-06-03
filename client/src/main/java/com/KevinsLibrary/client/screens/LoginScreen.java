@@ -17,7 +17,7 @@ public class LoginScreen extends JFrame {
         setSize (700, 400);    //視窗大小
         setDefaultCloseOperation (JFrame.DO_NOTHING_ON_CLOSE);    //跳出登入的X
         setLocationRelativeTo (null);    //視窗在螢幕正中間
-        Font font = new Font ("微軟正黑體", Font.PLAIN, 14);    //設定字型
+        Font font = new Font ("微軟正黑體", Font.PLAIN, 16);    //設定字型
 
         //新增按鈕
         JButton loginButton = new JButton ("登入");
@@ -65,13 +65,19 @@ public class LoginScreen extends JFrame {
                 String userID = accountField.getText ().trim ();
                 String password = new String (passwordField.getPassword ());
 
-                //.....這邊要登入.....這邊要登入.....這邊要登入.....這邊要登入.....這邊要登入.....這邊要登入.....這邊要登入.....這邊要登入.....
-                if (userID.equals("admin") && password.equals("1234")) {
+                /* 登入，中文的地方改掉，英文的應該可能不用動
+
+                if ( 去資料庫檢查 userID 和 password 對不對 ) {
+                    user = 要登入的帳號
                     new HomeScreen (user);
-                    dispose();
-                } else {
+                    dispose ();
+                }
+                else {
                     failLabel.setText("帳號或密碼錯誤！");
                 }
+
+                */
+               
             }
         });
         cancelButton.addActionListener (new ActionListener () {
@@ -91,6 +97,6 @@ public class LoginScreen extends JFrame {
             }
         });
 
-        setVisible(true);    //顯示視窗
+        setVisible (true);    //顯示視窗
     }
 }
