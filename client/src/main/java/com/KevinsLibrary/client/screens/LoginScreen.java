@@ -7,9 +7,11 @@ import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
+import main.java.com.KevinsLibrary.userType.User;
+
 //登入畫面
 public class LoginScreen extends JFrame {
-    public LoginScreen (String userName) {
+    public LoginScreen (User user) {
 
         setTitle ("興老大圖書館 登入");    //視窗名稱
         setSize (700, 400);    //視窗大小
@@ -38,7 +40,7 @@ public class LoginScreen extends JFrame {
         JPasswordField passwordField = new JPasswordField ();
         passwordField.setFont (font);
 
-        //Panel 用於整合 Label 、 Field 、 Botton
+        //Panel 用於整合
         JPanel inputPanel = new JPanel (new GridLayout (2, 2, 10, 10));
         inputPanel.add (accountLabel);
         inputPanel.add (accountField);
@@ -60,12 +62,12 @@ public class LoginScreen extends JFrame {
         loginButton.addActionListener (new ActionListener () {
             @Override
             public void actionPerformed (ActionEvent e) {
-                String userName = accountField.getText ().trim ();
+                String userID = accountField.getText ().trim ();
                 String password = new String (passwordField.getPassword ());
 
                 //.....這邊要登入.....這邊要登入.....這邊要登入.....這邊要登入.....這邊要登入.....這邊要登入.....這邊要登入.....這邊要登入.....
-                if (userName.equals("admin") && password.equals("1234")) {
-                    new HomeScreen (userName);
+                if (userID.equals("admin") && password.equals("1234")) {
+                    new HomeScreen (user);
                     dispose();
                 } else {
                     failLabel.setText("帳號或密碼錯誤！");
@@ -75,7 +77,7 @@ public class LoginScreen extends JFrame {
         cancelButton.addActionListener (new ActionListener () {
             @Override
             public void actionPerformed (ActionEvent e) {
-                new HomeScreen (userName);
+                new HomeScreen (user);
                 dispose ();
             }
         });
@@ -84,7 +86,7 @@ public class LoginScreen extends JFrame {
         addWindowListener (new WindowAdapter () {
             @Override
             public void windowClosing (WindowEvent e) {
-                new HomeScreen (userName);
+                new HomeScreen (user);
                 dispose ();
             }
         });
