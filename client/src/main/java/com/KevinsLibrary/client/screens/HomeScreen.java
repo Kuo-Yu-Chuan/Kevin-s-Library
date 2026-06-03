@@ -146,6 +146,13 @@ public class HomeScreen extends JFrame{
             adminButton.setBorderPainted (false);
             adminButton.setContentAreaFilled (false);
             leftPanel.add (adminButton);
+
+            adminButton.addActionListener (new ActionListener () {
+            @Override
+            public void actionPerformed (ActionEvent e) {
+                new AdminScreen ();
+            }
+        });
         }
         leftPanel.setBackground (Color.decode ("#FFFFFF"));
         add (leftPanel, BorderLayout.WEST);
