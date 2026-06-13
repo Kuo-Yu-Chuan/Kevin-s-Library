@@ -164,4 +164,50 @@ public class UserDAO {
         }
         return users;
     }
+
+    /**
+     * 1. 透過 userID 取得資料庫中的 Reader 物件
+     */
+    public static Reader getUserByID(String userID) {
+        String sql = "SELECT * FROM users WHERE userID = ?";
+        try (Connection conn = DriverManager.getConnection(URL);
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setString(1, userID);
+            try (ResultSet rs = stmt.executeQuery()) {
+                if (rs.next()) {
+                    return new Reader(
+                            rs.getString("userID"),
+                            rs.getString("password"),
+                            rs.getString("userName"),
+                            rs.getInt("foul"),
+                            rs.getLong("donate"),
+                            rs.getInt("booksBorrowed")
+                    );
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null; // 找不到該帳號
+    }
+
+    /**
+     * 2. 更新資料庫中的讀者狀態 (借書數量、違規點數)
+     */
+    public static void updateReader(Reader reader) {
+        String sql = "UPDATE users SET foul = ?, donate = ?, booksBorrowed = ? WHERE userID = ?";
+        try (Connection conn = DriverManager.getConnection(URL);
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setInt(1, reader.getFoul());
+            stmt.setLong(2, reader.getDonate());
+            stmt.setInt(3, reader.getBooksBorrowed());
+            stmt.setString(4, reader.getUserID());
+            stmt.executeUpdate();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
 }

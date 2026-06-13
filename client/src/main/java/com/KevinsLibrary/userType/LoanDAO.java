@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.time.LocalDate;
 import main.java.com.KevinsLibrary.Book.Book;
+import main.java.com.KevinsLibrary.userType.User;
 
 public class LoanDAO {
     private static final String URL = "jdbc:sqlite:library.db";
@@ -81,8 +82,8 @@ public class LoanDAO {
              ResultSet rs = stmt.executeQuery()) {
 
             while (rs.next()) {
-                Reader reader = getUserByID (rs.getString("userID"));
-                Book book = getBookByBar (rs.getString("barCode"));
+                Reader reader = User.getUserByID(rs.getString("userID"));
+                Book book = main.java.com.KevinsLibrary.Book.BookDAO.getBookByBarCode(rs.getString("barCode")); // 假設你的 BookDAO 有這個方法
                 LocalDate borrowDate = LocalDate.parse (rs.getString("borrowDate"));
                 LocalDate dueDate = LocalDate.parse (rs.getString("dueDate"));
                 boolean returned = rs.getInt ("returned") > 0 ? true : false;

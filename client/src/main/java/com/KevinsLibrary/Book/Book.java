@@ -1,7 +1,7 @@
 package main.java.com.KevinsLibrary.Book;
 
 import java.util.Set;
-
+import java.util.*;
 /**
  * Represents a physical or electronic book.
  */
@@ -18,7 +18,6 @@ public class Book {
     private Position position;
     private byte available;
     private String ebook;
-
     /**
      * Constructs a Book object.
      */
@@ -47,6 +46,7 @@ public class Book {
         this.position = position;
         this.available = available;
         this.ebook = ebook;
+        this.year = year;
     }
 
     /**
@@ -178,4 +178,5 @@ public class Book {
     public String getEbook() {
         return ebook;
     }
+
 }
