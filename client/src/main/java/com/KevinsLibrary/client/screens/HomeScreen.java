@@ -178,25 +178,18 @@ public class HomeScreen extends JFrame{
                 //去資料庫找書，找「 book.getTitle().contains(keyword) && book.getYear() >= yearFrom && book.getYear() <= yearTo 」的書
                 //books.add ( 一個Book );  用for或while一個一個add進去陣列
 
-                new SearchResultScreen (books);
+                new SearchResultScreen (books, user);
             }
         });
         ISBNButton.addActionListener (new ActionListener () {
             @Override
             public void actionPerformed (ActionEvent e) {
                 String ISBN = ISBNField.getText ().trim ();
-                int yearFrom = 0;
-                int yearTo = 99999;
-                try {
-                    yearFrom = Integer.parseInt (fromField.getText ().trim ());
-                    yearTo = Integer.parseInt (toField.getText ().trim ());
-                } catch (NumberFormatException E) {}
-
                 ArrayList<Book> books = new ArrayList<> ();
-                //去資料庫找書，找「 book.getISBN().equals (ISBN) && book.getYear() >= yearFrom && book.getYear() <= yearTo 」的書
+                //去資料庫找書，找「 book.getISBN().equals (ISBN) 」的書
                 //books.add ( 一個Book );  用for或while一個一個add進去陣列
 
-                new SearchResultScreen (books);
+                new SearchResultScreen (books, user);
             }
         });
         loginButton.addActionListener (new ActionListener () {

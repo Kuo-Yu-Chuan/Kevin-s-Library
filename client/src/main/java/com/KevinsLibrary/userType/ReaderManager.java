@@ -4,13 +4,19 @@ import main.java.com.KevinsLibrary.Book.Book;
 import java.util.ArrayList;
 import java.util.List;
 
+import java.time.LocalDate;
+
 public class ReaderManager {
 
     private List<Loan> loans = new ArrayList<>();
 
+    public ReaderManager () {
+        loans = LoanDAO.getAllLoans();
+    }
+
     public boolean canBorrow(Reader reader) {
-        return reader.getFoul() == 0
-                && reader.getBooksBorrowed() < 2;
+        return reader.getFoul() < 2
+                && reader.getBooksBorrowed() < 3;
     }
 
     public String borrowBook(Reader reader, Book book) {
@@ -40,6 +46,10 @@ public class ReaderManager {
                 loan.markReturned();
                 book.returnBook();
                 reader.setBooksBorrowed(reader.getBooksBorrowed() - 1);
+                if (LocalDate.now ().isAfter (loan.getDueDate ())) {
+                    reader.addFoul();
+                    return "你下次最好給我準時還書";
+                }
 
                 return "Return success";
             }

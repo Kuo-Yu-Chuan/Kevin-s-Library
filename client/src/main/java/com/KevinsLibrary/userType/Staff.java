@@ -33,9 +33,6 @@ public class Staff extends User {
             // 核准借閱，動態更新該讀者的借書紀錄清單與數量
             readerManager.modifyLoans(reader, book, true); // true 代表借書行為
 
-            // 這裡未來會觸發 Book 類別內部的遞減在庫數邏輯
-            // book.borrowBook();
-
             System.out.println("職員 [" + this.getUserName() + "] 成功幫讀者 [" + reader.getUserName() + "] 辦理借書：" + book.getTitle());
             return true;
         } else {
@@ -53,9 +50,6 @@ public class Staff extends User {
     public void returnBook(Reader reader, Book book, ReaderManager readerManager) {
         // 更新借書紀錄清單，將該筆 Loan 標記為已歸還，並遞減讀者的 booksBorrowed 數量
         readerManager.modifyLoans(reader, book, false); // false 代表還書行為
-
-        // 這裡未來會觸發 Book 類別內部的遞增在庫數邏輯
-        // book.returnBook();
 
         System.out.println("職員 [" + this.getUserName() + "] 成功幫讀者 [" + reader.getUserName() + "] 辦理還書：" + book.getTitle());
     }

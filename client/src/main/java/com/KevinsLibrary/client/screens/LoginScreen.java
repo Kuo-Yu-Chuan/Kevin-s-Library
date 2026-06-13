@@ -8,6 +8,7 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
 import main.java.com.KevinsLibrary.userType.User;
+import main.java.com.KevinsLibrary.userType.UserDAO;
 
 //登入畫面
 public class LoginScreen extends JFrame {
@@ -65,19 +66,15 @@ public class LoginScreen extends JFrame {
                 String userID = accountField.getText ().trim ();
                 String password = new String (passwordField.getPassword ());
 
-                /* 登入，中文的地方改掉，英文的應該可能不用動
-
-                if ( 去資料庫檢查 userID 和 password 對不對 ) {
-                    user = 要登入的帳號
-                    new HomeScreen (user);
+                //連接資料庫並登入
+                User currentUser = UserDAO.loginUser (userID, password);
+                if (currentUser != null) {
+                    new HomeScreen (currentUser);
                     dispose ();
                 }
                 else {
                     failLabel.setText("帳號或密碼錯誤！");
                 }
-
-                */
-               
             }
         });
         cancelButton.addActionListener (new ActionListener () {

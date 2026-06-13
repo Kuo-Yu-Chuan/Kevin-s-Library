@@ -9,13 +9,14 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
 import main.java.com.KevinsLibrary.Book.*;
+import main.java.com.KevinsLibrary.userType.*;
 
 public class SearchResultScreen extends JFrame {
 
     int currentPage = 1;
     int booksPerPage = 10;
 
-    public SearchResultScreen (ArrayList<Book> books) {
+    public SearchResultScreen (ArrayList<Book> books, User user) {
 
         setTitle ("興老大圖書館 搜尋結果");    //視窗名稱
         setSize (1200, 700);    //視窗大小
@@ -84,7 +85,7 @@ public class SearchResultScreen extends JFrame {
                 titleButtons[temp].addActionListener (new ActionListener () {
                     @Override
                     public void actionPerformed (ActionEvent e) {
-                        new BookScreen (books.get (booksPerPage * currentPage - booksPerPage + temp));
+                        new BookScreen (books.get (booksPerPage * currentPage - booksPerPage + temp), user);
                     }
                 });
             }

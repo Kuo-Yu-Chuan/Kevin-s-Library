@@ -1,6 +1,10 @@
 package main.java.com.KevinsLibrary.userType;
 
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.time.LocalDate;
+import main.java.com.KevinsLibrary.Book.Book;
 
 public class LoanDAO {
     private static final String URL = "jdbc:sqlite:library.db";
@@ -66,5 +70,28 @@ public class LoanDAO {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+    }
+
+    public static List<Loan> getAllLoans() {
+        List<Loan> loans = new ArrayList<>();
+        String sql = "SELECT * FROM users";
+
+        try (Connection conn = DriverManager.getConnection(URL);
+             PreparedStatement stmt = conn.prepareStatement(sql);
+             ResultSet rs = stmt.executeQuery()) {
+
+            while (rs.next()) {
+                Reader reader = getUserByID (rs.getString("userID"));
+                Book book = getBookByBar (rs.getString("barCode"));
+                LocalDate borrowDate = LocalDate.parse (rs.getString("borrowDate"));
+                LocalDate dueDate = LocalDate.parse (rs.getString("dueDate"));
+                boolean returned = rs.getInt ("returned") > 0 ? true : false;
+
+                loans.add (new Loan (book, reader, borrowDate, dueDate, returned));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return loans;
     }
 }

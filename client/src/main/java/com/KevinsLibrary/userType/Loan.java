@@ -19,6 +19,14 @@ public class Loan {
         this.returned = false;
     }
 
+    public Loan(Book book, Reader reader, LocalDate borrowDate, LocalDate dueDate, boolean returned) {
+        this.book = book;
+        this.reader = reader;
+        this.borrowDate = borrowDate;
+        this.dueDate = dueDate;
+        this.returned = returned;
+    }
+
     public Book getBook() {
         return book;
     }
@@ -34,6 +42,7 @@ public class Loan {
     public void markReturned() {
         this.returned = true;
     }
+    
     public LocalDate getBorrowDate() {
         return borrowDate;
     }

@@ -31,10 +31,22 @@ public class Position {
     }
 
     public String getFloorString () {
-        return " " + Byte.toString (floor) + "F ";
+        return Byte.toString (floor) + "F ";
     }
 
     public String getArea () {
         return area;
+    }
+
+    public void setFloor(byte floor) {
+        this.floor = floor;
+    }
+
+    public void setFloorString (byte floor) {
+        this.floor = floor;
+    }
+
+    public void setArea (String area) {
+        this.area = area;
     }
 }

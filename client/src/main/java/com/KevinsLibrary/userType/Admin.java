@@ -1,5 +1,10 @@
 package main.java.com.KevinsLibrary.userType;
+
+import java.util.HashSet;
+import java.util.Set;
 import main.java.com.KevinsLibrary.Book.Book;
+import main.java.com.KevinsLibrary.Book.BookDAO;
+import main.java.com.KevinsLibrary.Book.Position;
 /**
  * Admin 類別：系統管理員
  * 具備最高權限，與學生/職員帳號分離。負責書目資料維護與特定學號停權操作。
@@ -18,33 +23,43 @@ public class Admin extends User {
     }
 
     /**
-     * 修改書籍標題 (由管理員修改書本資料)
-     * @param book     欲修改的書籍物件
-     * @param newTitle 新的書名
-     */
-    public void modifyBookTitle(Book book, String newTitle) {
-        book.modifyTitle(newTitle);
-        System.out.println("管理員 [" + this.getUserName() + "] 已將書籍修改新書名為：" + newTitle);
-    }
-
-    /**
-     * 修改書籍作者 (由管理員修改書本資料)
-     * @param book       欲修改的書籍物件
-     * @param newAuthor  新的作者名稱
-     */
-    public void modifyBookAuthor(Book book, String newAuthor) {
-        book.modifyAuthor(newAuthor);
-        System.out.println("管理員 [" + this.getUserName() + "] 已將書籍修改新作者為：" + newAuthor);
-    }
-
-    /**
      * 即時新增/上架全新書目資料
      * @param title    書名
      * @param author   作者
      * @param isbn     國際標準書號
      */
-    public void newBook(String title, String author, String isbn) {
-        // 這裡未來會連動 BookDAO 執行 SQL 的 INSERT 指令將新書寫入資料庫
+    public void newBook(
+        String title,
+        String author,
+        int year,
+        String language,
+        String isbn,
+        String[] categorieString,
+        String callNumber,
+        String BarCode,
+        byte library,
+        byte floor,
+        String area,
+        byte available,
+        String ebook
+    ) {
+        Set<String> categories = new HashSet<> ();
+        for (int i = 0; i < categorieString.length; i++) {
+            categories.add (categorieString[i]);
+        }
+        BookDAO.addBook (new Book (
+            title,
+            author,
+            year,
+            language,
+            isbn,
+            categories,
+            callNumber,
+            BarCode,
+            new Position (library, floor, area),
+            available,
+            ebook
+        ));
         System.out.println("管理員 [" + this.getUserName() + "] 成功上架全新書目：" + title + " (ISBN: " + isbn + ")");
     }
 

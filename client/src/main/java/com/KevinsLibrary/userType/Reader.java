@@ -27,6 +27,9 @@ public class Reader extends User {
     public void setBooksBorrowed(int booksBorrowed) {
         this.booksBorrowed = booksBorrowed;
     }
+    public void addFoul () {
+        this.foul += 1;
+    }
     public void setFoul(int foul) {
         this.foul = foul;
     }

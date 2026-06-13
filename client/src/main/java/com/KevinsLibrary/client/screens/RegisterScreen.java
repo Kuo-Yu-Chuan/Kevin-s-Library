@@ -70,7 +70,7 @@ public class RegisterScreen extends JFrame {
             public void actionPerformed (ActionEvent e) {
                 String userID = accountField.getText ().trim ();
                 String password = new String (passwordField.getPassword ());
-                String UserName = nameField.getText ().trim ();
+                String userName = nameField.getText ().trim ();
 
                 /* 註冊，中文的地方改掉，英文的應該可能不用動
 

@@ -8,13 +8,19 @@ public class BookDAO {
     public static void createTable() {
         String sql = """
             CREATE TABLE IF NOT EXISTS books (
-                barCode TEXT PRIMARY KEY,
                 title TEXT NOT NULL,
                 author TEXT NOT NULL,
+                year INTEGER,
+                language TEXT NOT NULL,
                 ISBN TEXT,
+                categories TEXT,
                 callNumber TEXT,
+                barCode TEXT PRIMARY KEY,
+                library INTEGER NOT NULL,
+                floor INTEGER NOT NULL,
+                area TEXT NOT NULL,
                 available INTEGER,
-                ebookAvailable INTEGER
+                ebook TEXT
             )
         """;
 
@@ -29,20 +35,26 @@ public class BookDAO {
     public static void addBook(Book book) {
         String sql = """
             INSERT INTO books 
-            (barCode, title, author, ISBN, callNumber, available, ebookAvailable)
-            VALUES (?, ?, ?, ?, ?, ?, ?)
+            (title, author, year, language, ISBN, categories, callNumber, barCode, library, floor, area, available, ebook)
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
         """;
 
         try (Connection conn = DriverManager.getConnection(URL);
              PreparedStatement stmt = conn.prepareStatement(sql)) {
 
-            stmt.setString(1, book.getBarCode());
-            stmt.setString(2, book.getTitle());
-            stmt.setString(3, book.getAuthor());
-            stmt.setString(4, book.getISBN());
-            stmt.setString(5, book.getCallNumber());
-            stmt.setInt(6, book.getAvailable());
-            stmt.setInt(7, book.isEbookAvailable() ? 1 : 0);
+            stmt.setString(1, book.getTitle());
+            stmt.setString(2, book.getAuthor());
+            stmt.setInt(3, book.getYear());
+            stmt.setString(4, book.getLanguage());
+            stmt.setString(5, book.getISBN());
+            stmt.setString(6, book.getCategoriesString ());
+            stmt.setString(7, book.getCallNumber());
+            stmt.setString(8, book.getBarCode());
+            stmt.setInt(9, book.getPosition().getLibrary());
+            stmt.setInt(10, book.getPosition().getFloor());
+            stmt.setString(11, book.getPosition().getArea());
+            stmt.setInt(12, book.getAvailable());
+            stmt.setString(13, book.getEbook());
 
             stmt.executeUpdate();
 

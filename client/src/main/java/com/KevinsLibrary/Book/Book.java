@@ -17,7 +17,7 @@ public class Book {
     private String barCode;
     private Position position;
     private byte available;
-    private boolean ebookAvailable;
+    private String ebook;
 
     /**
      * Constructs a Book object.
@@ -33,7 +33,7 @@ public class Book {
             String barCode,
             Position position,
             byte available,
-            boolean ebookAvailable
+            String ebook
     ) {
 
         this.title = title;
@@ -46,7 +46,7 @@ public class Book {
         this.barCode = barCode;
         this.position = position;
         this.available = available;
-        this.ebookAvailable = ebookAvailable;
+        this.ebook = ebook;
     }
 
     /**
@@ -69,15 +69,57 @@ public class Book {
     /**
      * Modifies the book title.
      */
-    public void modifyTitle(String title) {
+    public void setInfo (
+            String title,
+            String author,
+            int year, 
+            String language, 
+            String ISBN,
+            String[] categories,
+            String callNumber,
+            String barCode,
+            String positionString,
+            byte available,
+            String ebook) {
+                
         this.title = title;
+        this.author = author;
+        this.year = year;
+        this.language = language;
+        this.ISBN = ISBN;
+
+        this.categories.clear ();
+        for (int i = 0; i < categories.length; i++) {
+            this.categories.add (categories[i]);
+        }
+
+        this.callNumber = callNumber;
+        this.barCode = barCode;
+        setPosition (positionString);
+        this.available = available;
+        this.ebook = ebook;
     }
 
-    /**
-     * Modifies the author name.
-     */
-    public void modifyAuthor(String author) {
-        this.author = author;
+    public void setPosition (String positionString) {
+        Position position = getPosition ();
+        switch (positionString.charAt (5)) {
+            case '一' :
+                position.setFloor ((byte) 1);
+                break;
+            case '二' :
+                position.setFloor ((byte) 2);
+                break;
+            case '三' :
+                position.setFloor ((byte) 3);
+                break;
+            case '四' :
+                position.setFloor ((byte) 4);
+                break;
+            default :
+                position.setFloor ((byte) 0);
+        }
+        position.setFloor (Byte.parseByte (positionString.substring (8, 9)));
+        position.setArea (positionString.substring (11, positionString.length ()));
     }
 
     public String getTitle() {
@@ -125,14 +167,15 @@ public class Book {
     }
 
     public String getPositionString () {
-        return "位於" + getPosition ().getLibraryString () + getPosition ().getFloorString () + getPosition ().getArea ();
+        Position position = getPosition ();
+        return "位於" + position.getLibraryString () + " " + position.getFloorString () + " " + position.getArea ();
     }
 
     public byte getAvailable() {
         return available;
     }
 
-    public boolean isEbookAvailable() {
-        return ebookAvailable;
+    public String getEbook() {
+        return ebook;
     }
 }
