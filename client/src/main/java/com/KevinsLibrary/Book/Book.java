@@ -1,7 +1,6 @@
 package main.java.com.KevinsLibrary.Book;
 
 import java.util.Set;
-import java.util.*;
 /**
  * Represents a physical or electronic book.
  */
@@ -46,7 +45,6 @@ public class Book {
         this.position = position;
         this.available = available;
         this.ebook = ebook;
-        this.year = year;
     }
 
     /**
@@ -104,19 +102,19 @@ public class Book {
         Position position = getPosition ();
         switch (positionString.charAt (5)) {
             case '一' :
-                position.setFloor ((byte) 1);
+                position.setLibrary ((byte) 1);
                 break;
             case '二' :
-                position.setFloor ((byte) 2);
+                position.setLibrary ((byte) 2);
                 break;
             case '三' :
-                position.setFloor ((byte) 3);
+                position.setLibrary ((byte) 3);
                 break;
             case '四' :
-                position.setFloor ((byte) 4);
+                position.setLibrary ((byte) 4);
                 break;
             default :
-                position.setFloor ((byte) 0);
+                position.setLibrary ((byte) 0);
         }
         position.setFloor (Byte.parseByte (positionString.substring (8, 9)));
         position.setArea (positionString.substring (11, positionString.length ()));

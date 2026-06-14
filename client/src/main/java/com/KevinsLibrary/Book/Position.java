@@ -38,6 +38,10 @@ public class Position {
         return area;
     }
 
+    public void setLibrary (byte library) {
+        this.library = library;
+    }
+
     public void setFloor(byte floor) {
         this.floor = floor;
     }

@@ -141,6 +141,7 @@ public class SearchResultScreen extends JFrame {
             JLabel sorryLabel = new JLabel ("拍謝啦，沒有你要的書。");
             sorryLabel.setFont (font);
             sorryLabel.setForeground (Color.RED);
+            sorryLabel.setHorizontalAlignment (SwingConstants.CENTER);
             add (sorryLabel, BorderLayout.CENTER);
         }
 

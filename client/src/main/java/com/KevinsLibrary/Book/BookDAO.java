@@ -3,7 +3,7 @@ package main.java.com.KevinsLibrary.Book;
 import java.sql.*;
 import java.util.*;
 public class BookDAO {
-    private static final String URL = "jdbc:sqlite:library.db";
+    private static final String URL = "jdbc:sqlite:libraryBook.db";
 
     public static void createTable() {
         String sql = """
@@ -32,7 +32,9 @@ public class BookDAO {
         }
     }
 
-    public static void addBook(Book book) {
+    public static boolean addBook(Book book) {
+        String ISBN = book.getISBN ();
+        if (getBookByISBN (ISBN) != null) { return false; }
         String sql = """
             INSERT INTO books 
             (title, author, year, language, ISBN, categories, callNumber, barCode, library, floor, area, available, ebook)
@@ -61,6 +63,7 @@ public class BookDAO {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        return true;
     }
 
     public static void updateAvailable(Book book) {
@@ -119,20 +122,18 @@ public class BookDAO {
         return null;
     }
 
-    public static List<Book> getBookByKey(String keyword, int yearFrom, int yearTo) {
-        List<Book> books = new ArrayList<>();
+    public static ArrayList<Book> getBookByKey(String keyword, int yearFrom, int yearTo) {
+        ArrayList<Book> books = new ArrayList<>();
 
         String sql = """
         SELECT * FROM books
-        WHERE (title LIKE ? OR author LIKE ? OR ISBN LIKE ?)
+        WHERE (title LIKE ? OR author LIKE ?)
         AND year BETWEEN ? AND ?
     """;
-
         try (Connection conn = DriverManager.getConnection(URL);
              PreparedStatement stmt = conn.prepareStatement(sql)) {
 
             String key = "%" + keyword + "%";
-
             stmt.setString(1, key);
             stmt.setString(2, key);
             stmt.setString(3, key);
@@ -148,7 +149,6 @@ public class BookDAO {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-
         return books;
     }
 
@@ -231,5 +231,70 @@ public class BookDAO {
             e.printStackTrace();
         }
         return null; // 找不到這本書
+    }
+
+    public static void defaultBook () {
+        // 1. 確保資料表存在 (包含讀者專用的 foul, donate, booksBorrowed)
+        String createTableSQL = "CREATE TABLE IF NOT EXISTS books ("
+                + "title TEXT NOT NULL, "
+                + "author TEXT NOT NULL, "
+                + "year INTEGER, "
+                + "language TEXT NOT NULL, "
+                + "ISBN TEXT, "
+                + "categories TEXT, "
+                + "callNumber TEXT, "
+                + "barCode TEXT PRIMARY KEY, "
+                + "library INTEGER NOT NULL, "
+                + "floor INTEGER NOT NULL, "
+                + "area TEXT NOT NULL, "
+                + "available INTEGER, "
+                + "ebook TEXT)";
+
+        try (Connection conn = DriverManager.getConnection(URL);
+             Statement stmt = conn.createStatement()) {
+            stmt.execute(createTableSQL);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        insertDefault("test book", "test book", 2000, "test book", "test book", "test book", "test book", "test book", 2, 2, "test book", 5, "test book");
+        insertDefault("test book", "test book", 2000, "test book", "test book", "test book", "test book", "test book", 2, 2, "test book", 5, "test book");
+        insertDefault("test book", "test book", 2000, "test book", "test book", "test book", "test book", "test book", 2, 2, "test book", 5, "test book");
+        insertDefault("test book", "test book", 2000, "test book", "test book", "test book", "test book", "test book", 2, 2, "test book", 5, "test book");
+        insertDefault("test book", "test book", 2000, "test book", "test book", "test book", "test book", "test book", 2, 2, "test book", 5, "test book");
+
+    }
+
+    private static void insertDefault(String title, String author, int year, String language, String ISBN, String catagories, String callNumber, String barCode, int library, int floor, String area, int available, String ebook) {
+        String checkSQL = "SELECT COUNT(1) FROM books WHERE title = ?";
+        String insertSQL = "INSERT INTO users (title, author, year, language, ISBN, catagories, callNumber, barCode, library, floor, area, available, ebook) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+
+        try (Connection conn = DriverManager.getConnection(URL);
+             PreparedStatement checkStmt = conn.prepareStatement(checkSQL)) {
+
+            checkStmt.setString(1, title);
+            try (ResultSet rs = checkStmt.executeQuery()) {
+                if (rs.next() && !rs.getBoolean(1)) { // 如果帳號不存在
+                    try (PreparedStatement insertStmt = conn.prepareStatement(insertSQL)) {
+                        insertStmt.setString(1, title);
+                        insertStmt.setString(2, author);
+                        insertStmt.setInt(3, year);
+                        insertStmt.setString(4, language);
+                        insertStmt.setString(5, ISBN);
+                        insertStmt.setString(6, catagories);
+                        insertStmt.setString(7, callNumber);
+                        insertStmt.setString(8, barCode);
+                        insertStmt.setInt(9, library);
+                        insertStmt.setInt(10, floor);
+                        insertStmt.setString(11, area);
+                        insertStmt.setInt(12, available);
+                        insertStmt.setString(13, ebook);
+                        insertStmt.executeUpdate();
+                    }
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 }

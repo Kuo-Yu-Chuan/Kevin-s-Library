@@ -11,13 +11,14 @@ import java.awt.event.WindowEvent;
 import main.java.com.KevinsLibrary.userType.User;
 import main.java.com.KevinsLibrary.userType.Admin;
 import main.java.com.KevinsLibrary.Book.Book;
+import main.java.com.KevinsLibrary.Book.BookDAO;
 
 //主畫面
 public class HomeScreen extends JFrame{
     public HomeScreen (User user) {
 
         setTitle ("興老大圖書館");    //視窗名稱
-        setSize (900, 600);    //視窗大小
+        setSize (1200, 600);    //視窗大小
         setDefaultCloseOperation (JFrame.DO_NOTHING_ON_CLOSE);    //結束應用程式的X
         setLocationRelativeTo (null);    //視窗在螢幕正中央
         getContentPane ().setBackground (Color.decode ("#FFFFFF"));    //視窗背景純白
@@ -27,7 +28,7 @@ public class HomeScreen extends JFrame{
         //整合中間部分
         JPanel middlePanel = new JPanel ();
         middlePanel.setLayout (new BoxLayout (middlePanel, BoxLayout.Y_AXIS));
-        middlePanel.setBorder (BorderFactory.createEmptyBorder (100, 70, 10, 10));    //上下左右空著
+        middlePanel.setBorder (BorderFactory.createEmptyBorder (100, 90, 10, 0));    //上下左右空著
 
         //中間大標誌
         ImageIcon libraryIcon = new ImageIcon ("images\\libraryIcon.png");
@@ -89,20 +90,20 @@ public class HomeScreen extends JFrame{
         fromLabel.setFont (smallFont);
         JLabel toLabel = new JLabel (" 至 ");
         toLabel.setFont (smallFont);
-        JLabel languageLabel = new JLabel ("　語言：");
-        languageLabel.setFont (smallFont);
+        //JLabel languageLabel = new JLabel ("　語言：");
+        //languageLabel.setFont (smallFont);
         JTextField fromField = new JTextField (3);
         fromField.setFont (smallFont);
         JTextField toField = new JTextField (3);
         toField.setFont (smallFont);
-        JTextField languageField = new JTextField (5);
-        languageField.setFont (smallFont);
+        //JTextField languageField = new JTextField (5);
+        //languageField.setFont (smallFont);
         optionPanel.add (fromLabel);
         optionPanel.add (fromField);
         optionPanel.add (toLabel);
         optionPanel.add (toField);
-        optionPanel.add (languageLabel);
-        optionPanel.add (languageField);
+        //optionPanel.add (languageLabel);
+        //optionPanel.add (languageField);
         optionPanel.setBackground (Color.decode ("#FFFFFF"));
         middlePanel.add (optionPanel);
 
@@ -110,26 +111,32 @@ public class HomeScreen extends JFrame{
         middlePanel.setBackground (Color.decode ("#FFFFFF"));
         add (middlePanel, BorderLayout.CENTER);
 
-        //新增右上文字和按鈕
-        JPanel rightPanel = new JPanel (new FlowLayout (FlowLayout.RIGHT, 10, 40));
-        JLabel nameLabel = new JLabel ("");
-        JButton loginButton = new JButton ("");
+        //新增右上方按鈕
+        JPanel rightPanel = new JPanel(new GridLayout(2, 1, 0, 10));
+        JLabel nameLabel = new JLabel("");
+        //nameLabel.setHorizontalAlignment(JLabel.RIGHT);
+        JButton loginButton = new JButton("");
         if (user != null) {
-            nameLabel.setText ("哈囉 " + user.getUserName ());
-            loginButton.setText ("切換帳號");
+            nameLabel.setFont (font);
+            nameLabel.setText("哈囉 " + user.getUserName() + "    ");
+            loginButton.setText("切換帳號");
+        } else {
+            loginButton.setText("登入");
         }
-        else {
-            loginButton.setText ("登入");
-        }
-        nameLabel.setFont (font);
-        rightPanel.add (nameLabel, BorderLayout.NORTH);
-        loginButton.setFont (font);
-        rightPanel.add (loginButton, BorderLayout.NORTH);
-        JButton registerButton = new JButton ("註冊");
-        registerButton.setFont (font);
-        rightPanel.add (registerButton, BorderLayout.NORTH);
-        rightPanel.setBackground (Color.decode ("#FFFFFF"));
-        add (rightPanel, BorderLayout.EAST);
+        JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT, 10, 0));
+        buttonPanel.setOpaque(false); // 讓背景透明，透出 rightPanel 的白色
+        loginButton.setFont(font);
+        buttonPanel.add(loginButton);
+        JButton registerButton = new JButton("註冊");
+        registerButton.setFont(font);
+        buttonPanel.add(registerButton);
+        rightPanel.add(nameLabel);
+        rightPanel.add(buttonPanel);
+        rightPanel.setBackground(Color.decode("#FFFFFF"));
+        JPanel topPanel = new JPanel ();
+        topPanel.add (rightPanel, BorderLayout.NORTH);
+        topPanel.setBackground(Color.decode("#FFFFFF"));
+        add(topPanel, BorderLayout.EAST);
 
         //新增左上按鈕
         JPanel leftPanel = new JPanel ();
@@ -140,19 +147,14 @@ public class HomeScreen extends JFrame{
         howButton.setBorderPainted (false);
         howButton.setContentAreaFilled (false);
         leftPanel.add (howButton);
+        JButton adminButton = new JButton ("> 管理員專區");
+        adminButton.setFont (smallFont);
+        adminButton.setBorderPainted (false);
+        adminButton.setContentAreaFilled (false);
+        leftPanel.add (adminButton);
+        adminButton.setVisible (false);
         if (user != null && user.getClass () == Admin.class) {
-            JButton adminButton = new JButton ("> 管理員專區");
-            adminButton.setFont (smallFont);
-            adminButton.setBorderPainted (false);
-            adminButton.setContentAreaFilled (false);
-            leftPanel.add (adminButton);
-
-            adminButton.addActionListener (new ActionListener () {
-            @Override
-            public void actionPerformed (ActionEvent e) {
-                new AdminScreen ();
-            }
-        });
+            adminButton.setVisible (true);
         }
         leftPanel.setBackground (Color.decode ("#FFFFFF"));
         add (leftPanel, BorderLayout.WEST);
@@ -174,9 +176,7 @@ public class HomeScreen extends JFrame{
                     yearTo = Integer.parseInt (toField.getText ().trim ());
                 } catch (NumberFormatException E) {}
 
-                ArrayList<Book> books = new ArrayList<> ();
-                //去資料庫找書，找「 book.getTitle().contains(keyword) && book.getYear() >= yearFrom && book.getYear() <= yearTo 」的書
-                //books.add ( 一個Book );  用for或while一個一個add進去陣列
+                ArrayList<Book> books = BookDAO.getBookByKey (keyword, yearFrom, yearTo) ;
 
                 new SearchResultScreen (books, user);
             }
@@ -186,8 +186,10 @@ public class HomeScreen extends JFrame{
             public void actionPerformed (ActionEvent e) {
                 String ISBN = ISBNField.getText ().trim ();
                 ArrayList<Book> books = new ArrayList<> ();
-                //去資料庫找書，找「 book.getISBN().equals (ISBN) 」的書
-                //books.add ( 一個Book );  用for或while一個一個add進去陣列
+                Book book = BookDAO.getBookByISBN (ISBN);
+                if (book != null) {
+                    books.add (book);
+                }
 
                 new SearchResultScreen (books, user);
             }
@@ -210,6 +212,12 @@ public class HomeScreen extends JFrame{
             @Override
             public void actionPerformed (ActionEvent e) {
                 new HowScreen ();
+            }
+        });
+        adminButton.addActionListener (new ActionListener () {
+            @Override
+            public void actionPerformed (ActionEvent e) {
+                new AdminScreen ();
             }
         });
         donateButton.addActionListener (new ActionListener () {

@@ -47,13 +47,13 @@ public class BookScreen extends JFrame {
             lendButton.addActionListener (new ActionListener () {
                 @Override
                 public void actionPerformed (ActionEvent e) {
-                    //這邊要借書
+                    new BorrowScreen (book);
                 }
             });
             returnButton.addActionListener (new ActionListener () {
                 @Override
                 public void actionPerformed (ActionEvent e) {
-                    //這裡要還書
+                    new ReturnScreen (book);
                 }
             });
         }

@@ -9,7 +9,7 @@ import java.util.List;
  */
 public class UserDAO {
     // 資料庫連線字串 (若使用 MySQL 可改為 "jdbc:mysql://localhost:3306/library")
-    private static final String URL = "jdbc:sqlite:library.db";
+    private static final String URL = "jdbc:sqlite:libraryUser.db";
 
     /**
      * 建立資料表並預設寫入管理員與一般讀者帳號（若不存在時）
@@ -31,9 +31,10 @@ public class UserDAO {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-
         // 2. 建立管理員帳號 (配合你介面的 admin / 1234)
         insertDefaultAccount("admin", "1234", "管理員大老", "Admin", 0, 0, 0);
+
+        insertDefaultAccount("staff", "4321", "櫃台", "Staff", 0, 0, 0);
 
         // 3. 建立測試用讀者帳號 (配合你介面的測試帳號)
         insertDefaultAccount("testUser", "0000", "測試讀者", "Reader", 0, 0, 0);
@@ -43,7 +44,7 @@ public class UserDAO {
      * 內部輔助方法：插入預設帳號
      */
     private static void insertDefaultAccount(String id, String pw, String name, String role, int foul, long donate, int borrowed) {
-        String checkSQL = "SELECT EXISTS(SELECT 1 FROM users WHERE userID = ?)";
+        String checkSQL = "SELECT COUNT(1) FROM users WHERE userID = ?";
         String insertSQL = "INSERT INTO users (userID, password, userName, role, foul, donate, booksBorrowed) VALUES (?, ?, ?, ?, ?, ?, ?)";
 
         try (Connection conn = DriverManager.getConnection(URL);
@@ -73,8 +74,12 @@ public class UserDAO {
      * 新增讀者到資料庫 (對應 RegisterScreen 的註冊功能)
      * * @param reader 欲新增的讀者物件
      */
-    public static void addReader(Reader reader) {
+    public static boolean addReader(Reader reader) {
         String sql = "INSERT INTO users (userID, password, userName, role, foul, donate, booksBorrowed) VALUES (?, ?, ?, ?, ?, ?, ?)";
+        List<User> users = getAllUsers ();
+        for (User user : users) {
+            if (user.getUserID ().equals (reader.getUserID ())) { return false; }
+        }
         try (Connection conn = DriverManager.getConnection(URL);
              PreparedStatement stmt = conn.prepareStatement(sql)) {
 
@@ -90,6 +95,7 @@ public class UserDAO {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        return true;
     }
 
     /**

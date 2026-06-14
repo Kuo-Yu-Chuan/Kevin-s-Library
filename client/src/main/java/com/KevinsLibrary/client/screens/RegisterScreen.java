@@ -8,6 +8,8 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
 import main.java.com.KevinsLibrary.userType.User;
+import main.java.com.KevinsLibrary.userType.Reader;
+import main.java.com.KevinsLibrary.userType.UserDAO;
 
 //註冊畫面
 public class RegisterScreen extends JFrame {
@@ -71,22 +73,19 @@ public class RegisterScreen extends JFrame {
                 String userID = accountField.getText ().trim ();
                 String password = new String (passwordField.getPassword ());
                 String userName = nameField.getText ().trim ();
-
-                /* 註冊，中文的地方改掉，英文的應該可能不用動
-
-                if ( 去資料庫檢查，userID和userName還沒被用過 ) {
-                    user = new User (userID, password, userName, "Reader");    //呼叫constructor創造新帳號
-                    還要在User的資料庫寫入新帳號的資訊
-
-                    new HomeScreen (user);
-                    dispose ();
+                if (userID.length () != 0 && password.length () != 0 && userName.length () != 0) {
+                    Reader reader = new Reader (userID, password, userName);
+                    if (UserDAO.addReader (reader)) {
+                        new HomeScreen (reader);
+                        dispose ();
+                    }
+                    else {
+                        failLabel.setText("不讓你註冊！"); 
+                    }
                 }
                 else {
-                    failLabel.setText("不讓你註冊！"); 
+                    failLabel.setText("不讓你註冊！");
                 }
-                    
-                */
-
             }
         });
         cancelButton.addActionListener (new ActionListener () {
