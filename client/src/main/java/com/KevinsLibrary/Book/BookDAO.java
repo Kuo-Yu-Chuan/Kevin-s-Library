@@ -12,7 +12,7 @@ public class BookDAO {
                 author TEXT NOT NULL,
                 year INTEGER,
                 language TEXT NOT NULL,
-                ISBN TEXT,
+                ISBN TEXT PRIMARY KEY,
                 categories TEXT,
                 callNumber TEXT,
                 barCode TEXT PRIMARY KEY,
@@ -64,6 +64,33 @@ public class BookDAO {
             e.printStackTrace();
         }
         return true;
+    }
+
+    public static void updateInfo (Book book) {
+        String sql = "UPDATE books SET title = ?,  author = ?, year = ?, language = ?, ISBN = ?, categories = ?, callNumber = ?, library = ?, floor = ?, area = ?, available = ?, ebook = ? WHERE barCode = ?";
+
+        try (Connection conn = DriverManager.getConnection(URL);
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setString(1, book.getTitle());
+            stmt.setString(2, book.getAuthor());
+            stmt.setInt(3, book.getYear());
+            stmt.setString(4, book.getLanguage());
+            stmt.setString(5, book.getISBN());
+            stmt.setString(6, book.getCategoriesString());
+            stmt.setString(7, book.getCallNumber());
+            stmt.setInt(8, book.getPosition().getLibrary ());
+            stmt.setInt(9, book.getPosition().getFloor ());
+            stmt.setString(10, book.getPosition().getArea ());
+            stmt.setInt(11, book.getAvailable());
+            stmt.setString(12, book.getEbook());
+            stmt.setString(13, book.getBarCode());
+
+            stmt.executeUpdate();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     public static void updateAvailable(Book book) {
@@ -124,15 +151,17 @@ public class BookDAO {
 
     public static ArrayList<Book> getBookByKey(String keyword, int yearFrom, int yearTo) {
         ArrayList<Book> books = new ArrayList<>();
-
+        System.out.println ("DAO 1");
         String sql = """
         SELECT * FROM books
         WHERE (title LIKE ? OR author LIKE ?)
         AND year BETWEEN ? AND ?
     """;
+        System.out.println ("DAO 2");
         try (Connection conn = DriverManager.getConnection(URL);
              PreparedStatement stmt = conn.prepareStatement(sql)) {
 
+            System.out.println ("DAO 3");
             String key = "%" + keyword + "%";
             stmt.setString(1, key);
             stmt.setString(2, key);
@@ -140,15 +169,19 @@ public class BookDAO {
             stmt.setInt(4, yearFrom);
             stmt.setInt(5, yearTo);
 
+            System.out.println ("DAO 4");
             ResultSet rs = stmt.executeQuery();
 
             while (rs.next()) {
+                System.out.println ("DAO 5");
                 books.add(buildBook(rs));
             }
 
         } catch (SQLException e) {
+            System.out.println ("DAO 6");
             e.printStackTrace();
         }
+        System.out.println ("DAO 7");
         return books;
     }
 
@@ -231,70 +264,5 @@ public class BookDAO {
             e.printStackTrace();
         }
         return null; // 找不到這本書
-    }
-
-    public static void defaultBook () {
-        // 1. 確保資料表存在 (包含讀者專用的 foul, donate, booksBorrowed)
-        String createTableSQL = "CREATE TABLE IF NOT EXISTS books ("
-                + "title TEXT NOT NULL, "
-                + "author TEXT NOT NULL, "
-                + "year INTEGER, "
-                + "language TEXT NOT NULL, "
-                + "ISBN TEXT, "
-                + "categories TEXT, "
-                + "callNumber TEXT, "
-                + "barCode TEXT PRIMARY KEY, "
-                + "library INTEGER NOT NULL, "
-                + "floor INTEGER NOT NULL, "
-                + "area TEXT NOT NULL, "
-                + "available INTEGER, "
-                + "ebook TEXT)";
-
-        try (Connection conn = DriverManager.getConnection(URL);
-             Statement stmt = conn.createStatement()) {
-            stmt.execute(createTableSQL);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-
-        insertDefault("test book", "test book", 2000, "test book", "test book", "test book", "test book", "test book", 2, 2, "test book", 5, "test book");
-        insertDefault("test book", "test book", 2000, "test book", "test book", "test book", "test book", "test book", 2, 2, "test book", 5, "test book");
-        insertDefault("test book", "test book", 2000, "test book", "test book", "test book", "test book", "test book", 2, 2, "test book", 5, "test book");
-        insertDefault("test book", "test book", 2000, "test book", "test book", "test book", "test book", "test book", 2, 2, "test book", 5, "test book");
-        insertDefault("test book", "test book", 2000, "test book", "test book", "test book", "test book", "test book", 2, 2, "test book", 5, "test book");
-
-    }
-
-    private static void insertDefault(String title, String author, int year, String language, String ISBN, String catagories, String callNumber, String barCode, int library, int floor, String area, int available, String ebook) {
-        String checkSQL = "SELECT COUNT(1) FROM books WHERE title = ?";
-        String insertSQL = "INSERT INTO users (title, author, year, language, ISBN, catagories, callNumber, barCode, library, floor, area, available, ebook) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-
-        try (Connection conn = DriverManager.getConnection(URL);
-             PreparedStatement checkStmt = conn.prepareStatement(checkSQL)) {
-
-            checkStmt.setString(1, title);
-            try (ResultSet rs = checkStmt.executeQuery()) {
-                if (rs.next() && !rs.getBoolean(1)) { // 如果帳號不存在
-                    try (PreparedStatement insertStmt = conn.prepareStatement(insertSQL)) {
-                        insertStmt.setString(1, title);
-                        insertStmt.setString(2, author);
-                        insertStmt.setInt(3, year);
-                        insertStmt.setString(4, language);
-                        insertStmt.setString(5, ISBN);
-                        insertStmt.setString(6, catagories);
-                        insertStmt.setString(7, callNumber);
-                        insertStmt.setString(8, barCode);
-                        insertStmt.setInt(9, library);
-                        insertStmt.setInt(10, floor);
-                        insertStmt.setString(11, area);
-                        insertStmt.setInt(12, available);
-                        insertStmt.setString(13, ebook);
-                        insertStmt.executeUpdate();
-                    }
-                }
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
     }
 }

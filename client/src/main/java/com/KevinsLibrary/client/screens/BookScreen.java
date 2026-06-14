@@ -13,7 +13,7 @@ import main.java.com.KevinsLibrary.userType.*;
 public class BookScreen extends JFrame {
     public BookScreen (Book book, User user) {
         setTitle ("書籍資料");    //視窗名稱
-        setSize (900, 600);    //視窗大小
+        setSize (700, 700);    //視窗大小
         setDefaultCloseOperation (JFrame.DO_NOTHING_ON_CLOSE);    //跳出登入的X
         setLocationRelativeTo (null);    //視窗在螢幕正中間
         Font font = new Font ("微軟正黑體", Font.PLAIN, 16);    //設定字型

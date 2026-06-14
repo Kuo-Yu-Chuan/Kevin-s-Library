@@ -175,9 +175,7 @@ public class HomeScreen extends JFrame{
                     yearFrom = Integer.parseInt (fromField.getText ().trim ());
                     yearTo = Integer.parseInt (toField.getText ().trim ());
                 } catch (NumberFormatException E) {}
-
                 ArrayList<Book> books = BookDAO.getBookByKey (keyword, yearFrom, yearTo) ;
-
                 new SearchResultScreen (books, user);
             }
         });

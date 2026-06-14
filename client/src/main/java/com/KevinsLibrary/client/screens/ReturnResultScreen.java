@@ -8,7 +8,7 @@ import java.awt.event.WindowEvent;
 public class ReturnResultScreen extends JFrame {
     public ReturnResultScreen (byte n) {
         setTitle ("還書結果");    //視窗名稱
-        setSize (100, 20);    //視窗大小
+        setSize (300, 90);    //視窗大小
         setDefaultCloseOperation (JFrame.DO_NOTHING_ON_CLOSE);    //跳出登入的X
         setLocationRelativeTo (null);    //視窗在螢幕正中間
         Font font = new Font ("微軟正黑體", Font.PLAIN, 16);    //設定字型

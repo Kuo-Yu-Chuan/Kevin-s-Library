@@ -19,7 +19,7 @@ public class SearchResultScreen extends JFrame {
     public SearchResultScreen (ArrayList<Book> books, User user) {
 
         setTitle ("興老大圖書館 搜尋結果");    //視窗名稱
-        setSize (1200, 700);    //視窗大小
+        setSize (800, 700);    //視窗大小
         setDefaultCloseOperation (JFrame.DO_NOTHING_ON_CLOSE);    //結束應用程式的X
         setLocationRelativeTo (null);    //視窗在螢幕正中央
         Font font = new Font ("微軟正黑體", Font.PLAIN, 16);    //設定字型

@@ -14,8 +14,6 @@ public class ClientMain {
         Global.userDAO = new UserDAO ();
         Global.loanDAO = new LoanDAO ();
         Global.readerManager = new ReaderManager ();
-        UserDAO.defaultuser();
-        BookDAO.defaultBook ();
         SwingUtilities.invokeLater (new Runnable () {
             @Override
             public void run () {
