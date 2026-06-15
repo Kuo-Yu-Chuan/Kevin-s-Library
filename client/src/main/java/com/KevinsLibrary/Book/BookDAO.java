@@ -151,37 +151,29 @@ public class BookDAO {
 
     public static ArrayList<Book> getBookByKey(String keyword, int yearFrom, int yearTo) {
         ArrayList<Book> books = new ArrayList<>();
-        System.out.println ("DAO 1");
         String sql = """
         SELECT * FROM books
         WHERE (title LIKE ? OR author LIKE ?)
         AND year BETWEEN ? AND ?
     """;
-        System.out.println ("DAO 2");
         try (Connection conn = DriverManager.getConnection(URL);
              PreparedStatement stmt = conn.prepareStatement(sql)) {
 
-            System.out.println ("DAO 3");
             String key = "%" + keyword + "%";
             stmt.setString(1, key);
             stmt.setString(2, key);
-            stmt.setString(3, key);
-            stmt.setInt(4, yearFrom);
-            stmt.setInt(5, yearTo);
+            stmt.setInt(3, yearFrom);
+            stmt.setInt(4, yearTo);
 
-            System.out.println ("DAO 4");
             ResultSet rs = stmt.executeQuery();
 
             while (rs.next()) {
-                System.out.println ("DAO 5");
                 books.add(buildBook(rs));
             }
 
         } catch (SQLException e) {
-            System.out.println ("DAO 6");
             e.printStackTrace();
         }
-        System.out.println ("DAO 7");
         return books;
     }
 

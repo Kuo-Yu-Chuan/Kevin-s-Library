@@ -19,7 +19,7 @@ public class SearchResultScreen extends JFrame {
     public SearchResultScreen (ArrayList<Book> books, User user) {
 
         setTitle ("興老大圖書館 搜尋結果");    //視窗名稱
-        setSize (800, 700);    //視窗大小
+        setSize (800, 600);    //視窗大小
         setDefaultCloseOperation (JFrame.DO_NOTHING_ON_CLOSE);    //結束應用程式的X
         setLocationRelativeTo (null);    //視窗在螢幕正中央
         Font font = new Font ("微軟正黑體", Font.PLAIN, 16);    //設定字型
@@ -58,6 +58,7 @@ public class SearchResultScreen extends JFrame {
                 titleButtons[i] = new JButton (currentBook.getTitle ());
                 titleButtons[i].setFont (font);
                 titleButtons[i].setHorizontalAlignment (SwingConstants.LEFT);    //靠左
+                titleButtons[i].setPreferredSize (new Dimension (50, 30));
                 gbc.fill = GridBagConstraints.HORIZONTAL;    //書名太長時會變成...
                 gbc.gridx = 0; gbc.gridy = i;    //[i][0]的位置
                 gbc.weightx = 0.6;    //長度佔60%
@@ -118,7 +119,7 @@ public class SearchResultScreen extends JFrame {
                         pageLabel.setText ("Page " + Integer.toString (currentPage) + "/" + Integer.toString (pages));
                         
                         int numOfBooks = booksPerPage;
-                        if (currentPage == pages - 1) {
+                        if (currentPage == pages) {
                             numOfBooks = books.size () % booksPerPage;
                             for (int i = numOfBooks; i < booksPerPage; i++) {
                                 titleButtons[i].setVisible (false);
