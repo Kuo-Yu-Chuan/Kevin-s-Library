@@ -18,7 +18,7 @@ public class HomeScreen extends JFrame{
     public HomeScreen (User user) {
 
         setTitle ("興老大圖書館");    //視窗名稱
-        setSize (1200, 600);    //視窗大小
+        setSize (1000, 600);    //視窗大小
         setDefaultCloseOperation (JFrame.DO_NOTHING_ON_CLOSE);    //結束應用程式的X
         setLocationRelativeTo (null);    //視窗在螢幕正中央
         getContentPane ().setBackground (Color.decode ("#FFFFFF"));    //視窗背景純白
